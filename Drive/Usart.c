@@ -22,7 +22,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "stm32f10x.h"
-#include <stdio.h>
+
 
 #define BYTE0(dwTemp)       (*(char *)(&dwTemp))
 #define BYTE1(dwTemp)       (*((char *)(&dwTemp) + 1))
@@ -147,42 +147,41 @@ uint8_t Uart1_Put_Char(unsigned char DataToSend)
 uint8_t Uart1_Put_Int16(uint16_t DataToSend)
 {
 	uint8_t sum = 0;
-//	TxBuffer[count++] = BYTE1(DataToSend);
-//	TxBuffer[count++] = BYTE0(DataToSend);
-//	if(!(USART1->CR1 & USART_CR1_TXEIE))
-//		USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
-//	sum += BYTE1(DataToSend);
-//	sum += BYTE0(DataToSend);
+	TxBuffer[count++] = BYTE1(DataToSend);
+	TxBuffer[count++] = BYTE0(DataToSend);
+	if(!(USART1->CR1 & USART_CR1_TXEIE))
+		USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
+	sum += BYTE1(DataToSend);
+	sum += BYTE0(DataToSend);
 	return sum;
 }
 uint8_t Uart1_Put_Float(float DataToSend)
 {
 	uint8_t sum = 0;
-//	floattobyte.num=DataToSend;
-//	TxBuffer[count++] = floattobyte.byte[3];  
-//	TxBuffer[count++] = floattobyte.byte[2];  
-//	TxBuffer[count++] = floattobyte.byte[1];  
-//	TxBuffer[count++] = floattobyte.byte[0];  
-//	if(!(USART1->CR1 & USART_CR1_TXEIE))
-//		USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
-//	sum += BYTE3(DataToSend);
-//	sum += BYTE2(DataToSend);
-//	sum += BYTE1(DataToSend);
-//	sum += BYTE0(DataToSend);
+	floattobyte.num=DataToSend;
+	TxBuffer[count++] = floattobyte.byte[3];
+	TxBuffer[count++] = floattobyte.byte[2];
+	TxBuffer[count++] = floattobyte.byte[1];
+	TxBuffer[count++] = floattobyte.byte[0];
+	if(!(USART1->CR1 & USART_CR1_TXEIE))
+		USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
+	sum += BYTE3(DataToSend);
+	sum += BYTE2(DataToSend);
+	sum += BYTE1(DataToSend);
+	sum += BYTE0(DataToSend);
 	return sum;	
 }
 void Uart1_Put_String(unsigned char *Str)
 {
-//	//判断Str指向的数据是否有效.
-//	while(*Str)
-//	{
-//	//是否是回车字符 如果是,则发送相应的回车 0x0d 0x0a
-//	if(*Str=='\r')Uart1_Put_Char(0x0d);
-//		else if(*Str=='\n')Uart1_Put_Char(0x0a);
-//			else Uart1_Put_Char(*Str);
-//	//指针++ 指向下一个字节.
-//	Str++;
-//	}
-//    printf("%s", Str);
+	//判断Str指向的数据是否有效.
+	while(*Str)
+	{
+	//是否是回车字符 如果是,则发送相应的回车 0x0d 0x0a
+	if(*Str=='\r')Uart1_Put_Char(0x0d);
+		else if(*Str=='\n')Uart1_Put_Char(0x0a);
+			else Uart1_Put_Char(*Str);
+	//指针++ 指向下一个字节.
+	Str++;
+	}
 }
 

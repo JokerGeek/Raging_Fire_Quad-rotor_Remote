@@ -53,8 +53,8 @@ void SYS_INIT(void)
 	Nvic_Init();					//中断初始化
 	Nrf24l01_Init(MODEL_RX2,40);//通道40
 
-	if((Nrf24l01_Check()))	printf("NRF24L01 IS OK !\r\n");
-	else printf("NRF24L01 IS NOT OK !\r\n");
+	if((Nrf24l01_Check()))	Uart1_Put_String("NRF24L01 IS OK !\r\n");
+	else Uart1_Put_String("NRF24L01 IS NOT OK !\r\n");
 	
 ////////////////////////////////////////////////////////////////////////////////
 //									以下是我添加的
